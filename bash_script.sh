@@ -2,11 +2,9 @@
 
 gpg_setup(){
 gpg --full-generate-key
-keygen=$(gpg --list-secret-keys --keyid-format=long|awk '/sec/{if (length($2)>0) print $2}');
-IFS=''  
-read -ra keyarr1 <<<"$keygen"
-len=${#keyarr1[@]} 
-keyspli=${keyarr1[len-1]}
+keygen=$(gpg --list-secret-keys --keyid-format=long|awk '/sec/{if (length($2)>0) print $2}')
+line=$(gpg --list-secret-keys --keyid-format=long|awk '/sec/{if (length($2)>0) print $2}' | grep -c ".*");
+keyspli=$(echo $keygen | awk "NR==$line{print}")
 IFS='/'  
 read -a keyarr2 <<<"$keyspli"
 key=${keyarr[1]}
@@ -21,13 +19,14 @@ echo
 echo "Thanks for using us"
 
 }
-keygen=$(gpg --list-secret-keys --keyid-format=long|awk '/sec/{if (length($2)>0) print $2}');
-IFS='/'  
-read -a keyarr <<<"$keygen"
-key=${keyarr[1]}
-if [ -n key ];
+bool=$(gpg --list-secret-keys --keyid-format=long)
+if [ $bool = "\n" ];
 
 then
+gpg_setup
+
+else
+
     echo "A GPG KEY ALREADY EXISTS ON YOUR SYSTEM"
     read -p "Do you still want to make new a one and set it as signingkey(y/n): " choice
     if [ $choice == "y" ]; then
@@ -44,7 +43,4 @@ then
           echo "Thanks for using us"
           fi
     fi
-
-else
-gpg_setup
 fi
