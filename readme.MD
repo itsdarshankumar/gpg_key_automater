@@ -9,7 +9,7 @@ GPG KEY AUTOMATER is a shell script which automates the whole process of GPG key
 ## How to start?
 
 - Clone the repository to your local system using `git clone -b` along with branch name and SSH Key.
-- Run the terminal in that folder and execute the shell script using ./bash_script.sh
+- Run the terminal in that folder and execute the shell script using `./bash_script.sh`
 
 ## Author
 
